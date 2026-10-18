@@ -200,7 +200,7 @@ def render(d):
               (num(next((e['deploys7d']['count'] for e in d['environments'] if e['name'] == 'prod'), None)), 'prod deploys, last 7 days', ''),
               (num((r30.get('delivery') or {}).get('mttdDays'), 3), 'lead time days (MTTD, 30 d)', '')]
     h = [f'<header class="top"><span class="brand">palermo-sites</span><span class="pill">Health dashboard</span>'
-         + (f'<a class="pill" href="{esc(d["platformDashboard"])}">Platform dashboard</a>' if d.get('platformDashboard') else '') + '</header><main>',
+         + (f'<a class="pill" id="to-platform" href="{esc(d["platformDashboard"])}">Platform dashboard</a>' if d.get('platformDashboard') else '') + '</header><main>',
          f'<h1>{esc(s["name"])}</h1><p class="muted">{esc(title)} · read <span data-ago="{esc(d["generated"])}">{esc(et(d["generated"]))}</span> · owner {esc(s.get("owner"))}</p>',
          '<div class="cards">' + ''.join(f'<div class="card {c}"><div class="v">{esc(v)}</div><div class="k">{esc(k)}</div></div>' for v, k, c in cards) + '</div>']
     # structure
@@ -259,7 +259,10 @@ def render(d):
     h.append(f'<footer>Written by workflow <code>health</code> every 30 minutes from public GitHub data and HTTPS probes · <a href="health.json">health.json</a> · <a href="history.json">history.json</a> · kit decision 0008</footer></main>')
     js = "document.querySelectorAll('[data-ago]').forEach(e=>{const m=Math.round((Date.now()-new Date(e.dataset.ago))/60000);e.textContent=m<1?'just now':m+' min ago'});"
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-            f'<meta name="robots" content="noindex"><title>{esc(title)}</title><style>{CSS}</style></head><body>{"".join(h)}<script>{js}</script></body></html>\n')
+            f'<meta name="robots" content="noindex"><title>{esc(title)}</title><style>{CSS}</style></head><body>{"".join(h)}<script>{js}{JS_FRAME}</script></body></html>\n')
+
+
+JS_FRAME = "// Shown inside the platform dashboard's zoom (kit decision 0009): Platform dashboard zooms back out there.\n(()=>{const a=document.getElementById('to-platform');if(!a||window.top===window)return;let same=false;try{same=window.parent.location.origin===location.origin}catch(e){}if(!same)return;a.textContent='\u2190 Platform';a.addEventListener('click',e=>{if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();window.parent.postMessage('platform-zoom-out',location.origin)})})();"
 
 
 def main():
