@@ -10,8 +10,8 @@
   "platformDashboard": "https://palermo-sites.github.io/platform-health/",
   "ciWorkflow": "ci.yml",
   "environments": [
-    { "name": "uat", "label": "UAT", "url": "https://palermo-sites.github.io/annika-site-uat/", "workflow": "uat.yml", "host": "GitHub Pages of annika-site-uat" },
-    { "name": "prod", "label": "Prod", "url": "https://palermo-sites.github.io/annika-site/", "workflow": "deploy.yml", "branch": "main", "host": "GitHub Pages of annika-site" }
+    { "name": "uat", "label": "UAT", "url": "https://uat.annikapalermo.com/", "workflow": "uat.yml", "host": "GitHub Pages of annika-site-uat" },
+    { "name": "prod", "label": "Prod", "url": "https://annikapalermo.com/", "workflow": "deploy.yml", "branch": "main", "host": "GitHub Pages of annika-site" }
   ],
   "workflows": [
     { "file": "ci.yml", "name": "ci", "purpose": "Build, HTML and link checks on every pull request and push" },
