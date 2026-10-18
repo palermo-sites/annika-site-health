@@ -1,0 +1,22 @@
+{
+  "slug": "annika",
+  "name": "Annika Palermo",
+  "owner": "Jeffrey Palermo",
+  "framework": "astro",
+  "domain": "annikapalermo.com",
+  "repository": "palermo-sites/annika-site",
+  "uatRepository": "palermo-sites/annika-site-uat",
+  "pagesUrl": "https://palermo-sites.github.io/annika-site-health/",
+  "platformDashboard": "https://palermo-sites.github.io/platform-health/",
+  "ciWorkflow": "ci.yml",
+  "environments": [
+    { "name": "uat", "label": "UAT", "url": "https://palermo-sites.github.io/annika-site-uat/", "workflow": "uat.yml", "host": "GitHub Pages of annika-site-uat" },
+    { "name": "prod", "label": "Prod", "url": "https://palermo-sites.github.io/annika-site/", "workflow": "deploy.yml", "branch": "main", "host": "GitHub Pages of annika-site" }
+  ],
+  "workflows": [
+    { "file": "ci.yml", "name": "ci", "purpose": "Build, HTML and link checks on every pull request and push" },
+    { "file": "uat.yml", "name": "uat", "purpose": "Deploy every pull request push and main to UAT" },
+    { "file": "deploy.yml", "name": "deploy", "purpose": "Deploy main to prod after ci passes" },
+    { "file": "scorecard.yml", "name": "Daily scorecard", "purpose": "Daily delivery facts to scorecard-data" }
+  ]
+}

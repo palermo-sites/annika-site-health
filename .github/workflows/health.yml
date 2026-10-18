@@ -1,0 +1,40 @@
+# Health dashboard of the website system annika (website-platform-kit decision 0008): every 30 minutes, on a push and by
+# hand, read the system's public GitHub data, probe UAT and prod, and publish the page to this repository's GitHub Pages.
+# No secret: the run's own token reads public repositories; nothing is committed.
+name: health
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: health
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read and probe
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/health.py --config health.config.json --out _site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
