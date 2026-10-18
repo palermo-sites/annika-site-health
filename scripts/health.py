@@ -262,7 +262,7 @@ def render(d):
             f'<meta name="robots" content="noindex"><title>{esc(title)}</title><style>{CSS}</style></head><body>{"".join(h)}<script>{js}{JS_FRAME}</script></body></html>\n')
 
 
-JS_FRAME = "// Shown inside the platform dashboard's zoom (kit decision 0009): Platform dashboard zooms back out there.\n(()=>{const a=document.getElementById('to-platform');if(!a||window.top===window)return;let same=false;try{same=window.parent.location.origin===location.origin}catch(e){}if(!same)return;a.textContent='\u2190 Platform';a.addEventListener('click',e=>{if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();window.parent.postMessage('platform-zoom-out',location.origin)})})();"
+JS_FRAME = "// Shown inside the platform dashboard's zoom (kit decision 0009): the bar over the frame has its own Platform button, so this link hides.\n(()=>{const a=document.getElementById('to-platform');if(!a||window.top===window)return;let same=false;try{same=window.parent.location.origin===location.origin}catch(e){}if(same)a.hidden=true})();"
 
 
 def main():
